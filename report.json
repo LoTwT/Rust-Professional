@@ -82,8 +82,8 @@
     },
     {
       "name": "algorithm17.rs",
-      "result": true,
-      "score": 1
+      "result": false,
+      "score": 0
     },
     {
       "name": "algorithm18.rs",
@@ -102,28 +102,28 @@
     },
     {
       "name": "solution1",
-      "result": false,
-      "score": 0
+      "result": true,
+      "score": 6
     },
     {
       "name": "solution2",
-      "result": false,
-      "score": 0
+      "result": true,
+      "score": 6
     },
     {
       "name": "solution3",
-      "result": false,
-      "score": 0
+      "result": true,
+      "score": 6
     },
     {
       "name": "solution4",
-      "result": false,
-      "score": 0
+      "result": true,
+      "score": 6
     },
     {
       "name": "solution5",
-      "result": false,
-      "score": 0
+      "result": true,
+      "score": 6
     },
     {
       "name": "solutiont1",
@@ -153,9 +153,9 @@
   ],
   "statistics": {
     "total_exercises": 30,
-    "total_successes": 20,
-    "total_failures": 10,
-    "total_score": 20,
-    "total_time": 14
+    "total_successes": 24,
+    "total_failures": 6,
+    "total_score": 49,
+    "total_time": 22
   }
 }
