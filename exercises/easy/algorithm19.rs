@@ -1,19 +1,77 @@
 /*
     Nth Fibonacci Number
-    Implement a function to calculate the `n`th Fibonacci number. 
+    Implement a function to calculate the `n`th Fibonacci number.
     The Fibonacci sequence is defined as follows:
     F(0) = 0, F(1) = 1, F(n) = F(n-1) + F(n-2) for n > 1.
 
     You need to implement the function `fib(n: i32) -> i32` to return the `n`th Fibonacci number.
-    
+
     Hint: Consider using matrix exponentiation to solve the problem in O(log n) time complexity.
 */
 
 use std::fmt::{self, Display, Formatter};
 
+struct Matrix {
+    data: [[i32; 2]; 2],
+}
+
+impl Matrix {
+    fn multiply(&self, other: &Matrix) -> Matrix {
+        let mut result = Matrix { data: [[0; 2]; 2] };
+        for i in 0..2 {
+            for j in 0..2 {
+                for k in 0..2 {
+                    result.data[i][j] += self.data[i][k] * other.data[k][j];
+                }
+            }
+        }
+        result
+    }
+
+    fn power(&self, n: i32) -> Matrix {
+        if n == 0 {
+            return Matrix {
+                data: [[1, 0], [0, 1]],
+            };
+        }
+        if n == 1 {
+            return Matrix { data: self.data };
+        }
+
+        let half = self.power(n / 2);
+        let mut result = half.multiply(&half);
+
+        if n % 2 == 1 {
+            result = result.multiply(self);
+        }
+
+        result
+    }
+}
+
+impl Display for Matrix {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        write!(
+            f,
+            "[[{}, {}], [{}, {}]]",
+            self.data[0][0], self.data[0][1], self.data[1][0], self.data[1][1]
+        )
+    }
+}
+
 pub fn fib(n: i32) -> i32 {
-    // TODO: Implement the logic to calculate the nth Fibonacci number using matrix exponentiation
-    0 // Placeholder return value
+    if n <= 0 {
+        return 0;
+    }
+    if n == 1 {
+        return 1;
+    }
+
+    let base_matrix = Matrix {
+        data: [[1, 1], [1, 0]],
+    };
+    let result_matrix = base_matrix.power(n - 1);
+    result_matrix.data[0][0]
 }
 
 #[cfg(test)]

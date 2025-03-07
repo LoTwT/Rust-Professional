@@ -1,8 +1,7 @@
 /*
-	heap
-	This question requires you to implement a binary heap function
+    heap
+    This question requires you to implement a binary heap function
 */
-
 
 use std::cmp::Ord;
 use std::default::Default;
@@ -37,7 +36,16 @@ where
     }
 
     pub fn add(&mut self, value: T) {
-        //TODO
+        self.items.push(value);
+        self.count += 1;
+
+        let mut idx = self.count;
+
+        while idx > 1 && (self.comparator)(&self.items[idx], &self.items[self.parent_idx(idx)]) {
+            let parend_idx = self.parent_idx(idx);
+            self.items.swap(idx, parend_idx);
+            idx = self.parent_idx(idx);
+        }
     }
 
     fn parent_idx(&self, idx: usize) -> usize {
@@ -57,8 +65,22 @@ where
     }
 
     fn smallest_child_idx(&self, idx: usize) -> usize {
-        //TODO
-		0
+        if !self.children_present(idx) {
+            return 0;
+        }
+
+        let left_idx = self.left_child_idx(idx);
+        let right_idx = self.right_child_idx(idx);
+
+        if right_idx > self.count {
+            return left_idx;
+        }
+
+        if (self.comparator)(&self.items[left_idx], &self.items[right_idx]) {
+            return left_idx;
+        } else {
+            return right_idx;
+        }
     }
 }
 
@@ -84,8 +106,34 @@ where
     type Item = T;
 
     fn next(&mut self) -> Option<T> {
-        //TODO
-		None
+        if self.count == 0 {
+            return None;
+        }
+
+        let top = std::mem::replace(&mut self.items[1], T::default());
+
+        if self.count == 1 {
+            self.count = 0;
+            return Some(top);
+        }
+
+        self.items[1] = self.items.pop().unwrap();
+        self.count -= 1;
+
+        let mut current = 1;
+
+        while self.children_present(current) {
+            let smallest = self.smallest_child_idx(current);
+
+            if !(self.comparator)(&self.items[current], &self.items[smallest]) {
+                self.items.swap(current, smallest);
+                current = smallest;
+            } else {
+                break;
+            }
+        }
+
+        Some(top)
     }
 }
 
